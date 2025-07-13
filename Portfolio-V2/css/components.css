@@ -1,0 +1,468 @@
+/* =========================
+    COMPONENT STYLES
+    ========================= */
+
+/**
+ * Navigation System
+ * - Fixed positioning with backdrop blur
+ * - Responsive layout
+ * - Accessible interactive elements
+ */
+
+:root {
+  /* Navigation Variables */
+  --nav-height: 70px;
+  --nav-padding: 1rem;
+  --nav-link-gap: 1.875rem; /* 30px */
+  --logo-size: 2.125rem; /* 34px */
+  --nav-link-underline-height: 2px;
+}
+/* ===== Base Navigation Styles ===== */
+.nav-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height, 70px);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: var(--nav-bg, rgba(255, 255, 255, 0.9));
+  border-bottom: 1px solid var(--glass-border, rgba(0, 0, 0, 0.1));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+  .nav-fixed {
+    background: rgba(255, 255, 255, 0.95);
+  }
+  
+  [data-theme="dark"] .nav-fixed {
+    background: rgba(15, 23, 42, 0.95);
+  }
+}
+
+/* ===== Container Layout ===== */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 1.5rem;
+  margin: 0 auto;
+}
+
+/* ===== Logo Group ===== */
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--primary-color, #9d00ff), var(--secondary-color, #ff8a00));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ===== Navigation Links ===== */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  margin-left: auto;
+  padding-right: 1rem;
+}
+
+.nav-link {
+  position: relative;
+  color: var(--text-color, #333);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+/* Underline Animation */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-color, #9d00ff), var(--secondary-color, #ff8a00));
+  transition: width 0.3s ease;
+}
+
+/* Hover & Active States */
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color, #9d00ff);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Focus State */
+.nav-link:focus-visible {
+  outline: 2px solid var(--primary-color, #9d00ff);
+  outline-offset: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* ===== Mobile Menu Toggle (if needed) ===== */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
+  .nav-container {
+    padding: 0 1rem;
+  }
+}
+
+/* Theme Toggle Button */
+.nav__theme-toggle {
+  --toggle-size: 2rem;
+  
+  width: var(--toggle-size);
+  height: var(--toggle-size);
+  border-radius: 50%;
+  background: var(--toggle-bg);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.1) rotate(30deg);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+  
+  & i {
+    color: var(--toggle-icon);
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+  }
+}
+
+/* Responsive Navigation */
+@media (max-width: 768px) {
+  .nav__links {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background: var(--nav-bg);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: 
+      transform 0.3s ease,
+      opacity 0.3s ease;
+    
+    &--open {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .nav__link {
+    padding: 1rem 0;
+    font-size: 1rem;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .nav,
+  .nav__logo,
+  .nav__theme-toggle,
+  .nav__link::after {
+    transition: none !important;
+  }
+  
+  .nav__links {
+    transition: none !important;
+  }
+}
+/* =========================
+    LOGO CONTAINER STYLES
+    ========================= */
+
+/* Navbar Logo Container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Logo Image */
+.logo {
+  width: 2.125rem;  /* 34px */
+  height: 2.125rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  transition: 
+    transform 0.3s ease,
+    border-color 0.3s ease;
+  
+  &:hover {
+    transform: rotate(15deg) scale(1.1);
+    border-color: var(--primary-color);
+  }
+  
+  /* Fallback for broken images */
+  &.fallback-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    font-weight: bold;
+  }
+}
+
+/* Footer Logo Container */
+.footer-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  
+  .logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
+    &:hover {
+      transform: none;
+      box-shadow: 0 0 0 2px var(--primary-color);
+    }
+  }
+}
+
+/* Logo Text */
+.logo-text {
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: all 0.3s ease;
+  
+  .logo-container:hover &,
+logo-container:hover & {
+    text-shadow: 0 0 8px rgba(157, 0, 255, 0.3);
+  }
+}
+
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .logo-container {
+    gap: 0.5rem;
+  }
+  
+  .logo {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+  
+  .logo-text {
+    font-size: 1.1rem;
+  }
+}
+
+/* =========================
+    PROJECT TAG STYLES
+    ========================= */
+
+/* Base project tag styles for better visibility */
+.project-card .flex.flex-wrap span {
+  border: 1px solid;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Light mode tag styles */
+:root {
+  --tag-bg-light: rgba(255, 255, 255, 0.8);
+  --tag-border-light: rgba(0, 0, 0, 0.2);
+  --tag-text-light: #374151;
+}
+
+/* Dark mode tag styles */
+[data-theme="dark"] {
+  --tag-bg-dark: rgba(0, 0, 0, 0.4);
+  --tag-border-dark: rgba(255, 255, 255, 0.2);
+  --tag-text-dark: #e5e7eb;
+}
+
+/* Override existing tag colors for better visibility */
+.project-card .bg-purple-600\/20 {
+  background: var(--tag-bg-light, rgba(147, 51, 234, 0.15)) !important;
+  border-color: rgba(147, 51, 234, 0.4) !important;
+  color: #7c3aed !important;
+}
+
+.project-card .bg-cyan-600\/20 {
+  background: var(--tag-bg-light, rgba(8, 145, 178, 0.15)) !important;
+  border-color: rgba(8, 145, 178, 0.4) !important;
+  color: #0891b2 !important;
+}
+
+.project-card .bg-yellow-600\/20 {
+  background: var(--tag-bg-light, rgba(202, 138, 4, 0.15)) !important;
+  border-color: rgba(202, 138, 4, 0.4) !important;
+  color: #ca8a04 !important;
+}
+
+.project-card .bg-pink-600\/20 {
+  background: var(--tag-bg-light, rgba(219, 39, 119, 0.15)) !important;
+  border-color: rgba(219, 39, 119, 0.4) !important;
+  color: #db2777 !important;
+}
+
+.project-card .bg-blue-600\/20 {
+  background: var(--tag-bg-light, rgba(37, 99, 235, 0.15)) !important;
+  border-color: rgba(37, 99, 235, 0.4) !important;
+  color: #2563eb !important;
+}
+
+.project-card .bg-green-600\/20 {
+  background: var(--tag-bg-light, rgba(22, 163, 74, 0.15)) !important;
+  border-color: rgba(22, 163, 74, 0.4) !important;
+  color: #16a34a !important;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] .project-card .bg-purple-600\/20 {
+  background: rgba(147, 51, 234, 0.25) !important;
+  border-color: rgba(147, 51, 234, 0.5) !important;
+  color: #a855f7 !important;
+}
+
+[data-theme="dark"] .project-card .bg-cyan-600\/20 {
+  background: rgba(8, 145, 178, 0.25) !important;
+  border-color: rgba(8, 145, 178, 0.5) !important;
+  color: #22d3ee !important;
+}
+
+[data-theme="dark"] .project-card .bg-yellow-600\/20 {
+  background: rgba(202, 138, 4, 0.25) !important;
+  border-color: rgba(202, 138, 4, 0.5) !important;
+  color: #eab308 !important;
+}
+
+[data-theme="dark"] .project-card .bg-pink-600\/20 {
+  background: rgba(219, 39, 119, 0.25) !important;
+  border-color: rgba(219, 39, 119, 0.5) !important;
+  color: #ec4899 !important;
+}
+
+[data-theme="dark"] .project-card .bg-blue-600\/20 {
+  background: rgba(37, 99, 235, 0.25) !important;
+  border-color: rgba(37, 99, 235, 0.5) !important;
+  color: #3b82f6 !important;
+}
+
+[data-theme="dark"] .project-card .bg-green-600\/20 {
+  background: rgba(22, 163, 74, 0.25) !important;
+  border-color: rgba(22, 163, 74, 0.5) !important;
+  color: #22c55e !important;
+}
+
+/* Hover effects for tags */
+.project-card .flex.flex-wrap span:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .project-card .flex.flex-wrap span:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Print Optimization */
+@media print {
+  .logo-container,
+  .footer-logo-container {
+    gap: 0.5rem;
+  }
+  
+  .logo {
+    border: 1px solid #ddd !important;
+    filter: grayscale(100%) contrast(200%);
+  }
+  
+  .logo-text {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+  
+  /* Print-friendly tags */
+  .project-card .flex.flex-wrap span {
+    background: #f3f4f6 !important;
+    color: #374151 !important;
+    border: 1px solid #d1d5db !important;
+  }
+}
