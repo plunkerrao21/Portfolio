@@ -151,26 +151,17 @@ function setupTheme() {
 
 function setupForm() {
     const form = document.getElementById('contactForm');
-    const toast = document.getElementById('toast');
     if (!form) return;
 
     form.addEventListener('submit', function(e) {
-        e.preventDefault();
         const btn = form.querySelector('button[type="submit"]');
-        const original = btn.innerHTML;
         
+        // Show loading state
         btn.innerHTML = 'Sending...';
         btn.disabled = true;
         
-        setTimeout(() => {
-            if (toast) {
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 3000);
-            }
-            btn.innerHTML = original;
-            btn.disabled = false;
-            form.reset();
-        }, 1000);
+        // Let the form submit naturally to FormSubmit
+        // Don't prevent default - let FormSubmit handle it
     });
 }
 
