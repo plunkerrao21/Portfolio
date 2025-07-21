@@ -123,6 +123,7 @@ function setupTheme() {
     const getTheme = () => localStorage.getItem('theme') || 
         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
+        
     const setTheme = (theme, animate = false) => {
         if (animate) {
             html.classList.add('theme-switching');
@@ -166,9 +167,54 @@ function setupForm() {
 }
 
 // Certificate Modal Functions
-function openCertificateModal() {
+function openCertificateModal(type = 'certificate') {
     const modal = document.getElementById('certificateModal');
-    if (modal) {
+    const contentContainer = document.getElementById('certificateContent');
+    
+    if (modal && contentContainer) {
+        // Set content based on certificate type
+        if (type === 'certificate') {
+            contentContainer.innerHTML = `
+                <div class="modal-header">
+                    <h3>UI/UX Design Certification</h3>
+                    <p>Professional certification demonstrating expertise in user experience design</p>
+                </div>
+                <div class="modal-body">
+                    <img src="./assets/images/certificate.jpg" alt="UI/UX Design Certificate" class="modal-certificate">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="downloadDocument('certificate')">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            `;
+        } else if (type === 'internship') {
+            contentContainer.innerHTML = `
+                <div class="modal-header">
+                    <h3>Internship Completion Letter</h3>
+                    <p>Official completion letter from Ceeras Technologies</p>
+                </div>
+                <div class="modal-body">
+                    <img src="./assets/images/Internship.jpg" alt="Internship Completion Letter" class="modal-certificate">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="downloadDocument('internship')">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            `;
+        }
+        
+        // Ensure images are properly sized
+        setTimeout(() => {
+            const img = contentContainer.querySelector('.modal-certificate');
+            if (img) {
+                img.style.maxHeight = '70vh';
+                img.style.width = 'auto';
+                img.style.objectFit = 'contain';
+            }
+        }, 100);
+        
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -182,10 +228,17 @@ function closeCertificateModal() {
     }
 }
 
-function downloadCertificate() {
+function downloadDocument(type = 'certificate') {
     const link = document.createElement('a');
-    link.href = './assets/images/certificate.jpg';
-    link.download = 'Anuj_Dighe_UIUX_Certificate.jpg';
+    
+    if (type === 'certificate') {
+        link.href = './assets/images/certificate.jpg';
+        link.download = 'Anuj_Dighe_UIUX_Certificate.jpg';
+    } else if (type === 'internship') {
+        link.href = './assets/images/Internship.jpg';
+        link.download = 'Anuj_Dighe_Internship_Completion.jpg';
+    }
+    
     link.click();
 }
 
@@ -200,31 +253,33 @@ function verifyCertificate() {
 
 // Certificate Card Center-Based Flip
 function setupCertificateFlip() {
-    const card = document.querySelector('.certificate-card');
-    if (!card) return;
+    const cards = document.querySelectorAll('.certificate-card');
+    if (!cards.length) return;
     
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            // Calculate distance from center
+            const distanceFromCenter = Math.sqrt(
+                Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2)
+            );
+            
+            // Flip when cursor is within 50px of center
+            if (distanceFromCenter < 50) {
+                card.classList.add('flipped');
+            } else {
+                card.classList.remove('flipped');
+            }
+        });
         
-        // Calculate distance from center
-        const distanceFromCenter = Math.sqrt(
-            Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2)
-        );
-        
-        // Flip when cursor is within 50px of center
-        if (distanceFromCenter < 50) {
-            card.classList.add('flipped');
-        } else {
+        card.addEventListener('mouseleave', () => {
             card.classList.remove('flipped');
-        }
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.classList.remove('flipped');
+        });
     });
 }
 
