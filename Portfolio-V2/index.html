@@ -907,9 +907,10 @@
 
         <!-- Certificate Section -->
         <div class="certificate-section mb-20 fade-in-up">
-            <h3 class="text-3xl font-bold text-center mb-12">Professional <span class="gradient-text">Certification</span></h3>
-            <div class="certificate-container">
-                <div class="certificate-card" onclick="openCertificateModal()">
+            <h3 class="text-3xl font-bold text-center mb-12">Professional <span class="gradient-text">Credentials</span></h3>
+            <div class="certificate-container grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- UI/UX Certificate -->
+                <div class="certificate-card h-full" onclick="openCertificateModal('certificate')">
                     <div class="certificate-front">
                         <div class="cert-header">
                             <div class="cert-icon">
@@ -920,9 +921,6 @@
                         <h4 class="cert-title">UI/UX Designer</h4>
                         <p class="cert-issuer">Professional Certification</p>
                         <div class="cert-date">2024</div>
-                        <div class="cert-actions">
-                            <span class="cert-action"><i class="fas fa-eye"></i> View</span>
-                        </div>
                     </div>
                     <div class="certificate-back">
                         <div class="cert-preview">
@@ -930,6 +928,30 @@
                             <div class="cert-overlay">
                                 <i class="fas fa-search-plus"></i>
                                 <span>Click to view full certificate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Internship Completion Letter -->
+                <div class="certificate-card h-full" onclick="openCertificateModal('internship')">
+                    <div class="certificate-front">
+                        <div class="cert-header">
+                            <div class="cert-icon bg-gradient-to-r from-purple-600 to-pink-500">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div class="cert-badge bg-gradient-to-r from-purple-600 to-pink-500">Completed</div>
+                        </div>
+                        <h4 class="cert-title">Internship Completion</h4>
+                        <p class="cert-issuer">Ceeras IT services PVt Limited</p>
+                        <div class="cert-date">2024</div>
+                    </div>
+                    <div class="certificate-back">
+                        <div class="cert-preview">
+                            <img src="./assets/images/Internship.jpg" alt="Internship Completion Letter" class="cert-image">
+                            <div class="cert-overlay">
+                                <i class="fas fa-search-plus"></i>
+                                <span>Click to view completion letter</span>
                             </div>
                         </div>
                     </div>
@@ -1088,17 +1110,8 @@
             <button class="modal-close" onclick="closeCertificateModal()">
                 <i class="fas fa-times"></i>
             </button>
-            <div class="modal-header">
-                <h3>UI/UX Design Certification</h3>
-                <p>Professional certification demonstrating expertise in user experience design</p>
-            </div>
-            <div class="modal-body">
-                <img src="./assets/images/certificate.jpg" alt="UI/UX Design Certificate" class="modal-certificate">
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" onclick="downloadCertificate()">
-                    <i class="fas fa-download"></i> Download
-                </button>
+            <div id="certificateContent">
+                <!-- Content will be dynamically inserted by JavaScript -->
             </div>
         </div>
     </div>
