@@ -154,15 +154,57 @@ function setupForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
 
-    form.addEventListener('submit', function(e) {
-        const btn = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        const formStatus = document.getElementById('formStatus');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        // Get form data
+        const formData = new URLSearchParams();
+        formData.append('name', document.getElementById('name').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('message', document.getElementById('message').value);
         
         // Show loading state
-        btn.innerHTML = 'Sending...';
-        btn.disabled = true;
+        submitBtn.disabled = true;
+        btnText.textContent = 'Sending...';
+        btnIcon.className = 'fas fa-spinner fa-spin ml-2';
+        formStatus.classList.add('hidden');
+        successMessage.classList.add('hidden');
+        errorMessage.classList.add('hidden');
         
-        // Let the form submit naturally to FormSubmit
-        // Don't prevent default - let FormSubmit handle it
+        try {
+            // Submit to Google Apps Script
+            await fetch(
+                'https://script.google.com/macros/s/AKfycbylwTAiTGoB-5PhFZ9DkdvHCMuwhwFMG_VoW4-tmppNeWudEdpJXLieJTwXSLY65Q-G/exec',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString(),
+                    mode: 'no-cors'
+                }
+            );
+            
+            // Show success message
+            formStatus.classList.remove('hidden');
+            successMessage.classList.remove('hidden');
+            form.reset();
+            
+        } catch (error) {
+            console.error('Form submission error:', error);
+            formStatus.classList.remove('hidden');
+            errorMessage.classList.remove('hidden');
+        } finally {
+            // Reset button state
+            submitBtn.disabled = false;
+            btnText.textContent = 'Send Message';
+            btnIcon.className = 'fas fa-paper-plane ml-2';
+        }
     });
 }
 
