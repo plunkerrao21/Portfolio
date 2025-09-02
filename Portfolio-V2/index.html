@@ -986,25 +986,63 @@
 
         <div class="grid lg:grid-cols-2 gap-12">
             <!-- Contact Form Card -->
-            <div class="glass-card p-8 fade-in-up text-center">
-                <div class="mb-8">
+            <div class="glass-card p-8 fade-in-up">
+                <div class="mb-8 text-center">
                     <div class="w-20 h-20 bg-gradient-to-r from-purple-600 to-cyan-400 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-paper-plane text-white text-2xl"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Ready to Start a Project?</h3>
-                    <p class="text-gray-400 mb-8">Let's discuss your ideas and bring them to life. Fill out my contact form to get started.</p>
+                    <h3 class="text-2xl font-semibold mb-4">Send Me a Message</h3>
+                    <p class="text-gray-400 mb-8">Let's discuss your ideas and bring them to life.</p>
                 </div>
                 
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSemg5qPt4QVrfEKH3A8Xa_hi2zcDVrNBiTWIWAX7uyfBYnooQ/viewform?usp=dialog" 
-                   target="_blank" 
-                   rel="noopener" 
-                   class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-external-link-alt mr-3"></i>
-                    <span>Open Contact Form</span>
-                </a>
+                <form id="contactForm" class="space-y-6">
+                    <div>
+                        <input type="text" 
+                               id="name" 
+                               name="name" 
+                               placeholder="Your Name" 
+                               required 
+                               style="color: var(--foreground);" 
+                               class="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                    </div>
+                    
+                    <div>
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               placeholder="Your Email" 
+                               required 
+                               style="color: var(--foreground);" 
+                               class="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                    </div>
+                    
+                    <div>
+                        <textarea id="message" 
+                                  name="message" 
+                                  placeholder="Your Message" 
+                                  required 
+                                  rows="5" 
+                                  style="color: var(--foreground);" 
+                                  class="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+                    
+                    <button type="submit" 
+                            id="submitBtn" 
+                            class="w-full py-4 bg-gradient-to-r from-purple-600 to-cyan-400 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none">
+                        <span id="btnText">Send Message</span>
+                        <i id="btnIcon" class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
                 
-                <div class="mt-6 text-sm text-gray-500">
-                    <p>Opens in a new tab • Secure Google Form</p>
+                <div id="formStatus" class="mt-4 text-center hidden">
+                    <div id="successMessage" class="text-green-400 hidden">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        Your message was sent successfully!
+                    </div>
+                    <div id="errorMessage" class="text-red-400 hidden">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        Something went wrong. Please try again.
+                    </div>
                 </div>
             </div>
 
